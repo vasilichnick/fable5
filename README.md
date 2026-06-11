@@ -70,6 +70,27 @@ goes.
 Works in any Claude Code session; the capacity ladder is tuned for the
 Fable 5 / Opus model family but degrades gracefully on anything.
 
+## Tools it drives
+
+The frontmatter deliberately ships **without** an `allowed-tools`
+allowlist — in Claude Code that field *restricts* rather than documents,
+and Phase 4 executes whatever your build legitimately needs. What each
+phase actually reaches for:
+
+| Phase | Tools |
+| --- | --- |
+| 1 — Recon | `Read`, `Glob`, `Grep`, `Bash` (read-only state checks) |
+| 2 — Interview | `AskUserQuestion` (the interactive option cards) |
+| 3 — Spec + capacity | none — pure judgment |
+| 4 — Execute | your session's normal toolset (`Edit`/`Write`/`Bash`/…); plus `Agent` (fresh-context verifier subagent) at xhigh, and `Workflow` (multi-agent adversarial verification) at max |
+| 5 — Report | cites the tool results produced above |
+
+Everything named is a Claude Code built-in: nothing to install, no MCP
+servers, no network calls of the skill's own. The Workflow tier only ever
+activates at `max` capacity (production/money/irreversible stakes) — and
+per Claude Code's rules, a skill instructing it counts as your explicit
+opt-in to multi-agent token spend, so it's also documented here.
+
 ## Why "fable5"
 
 Named after the model whose prompting guide it encodes. The guide tells
